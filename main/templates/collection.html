@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block collection %}
+<div class="album py-5 bg-light">
+<section class="py-8 text-center container">
+  <div class="row">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Etsy Products</h1>
+      <p class="lead text-muted">Insert a URL of a product that exist on Etsy.</p>
+
+
+      <form action="/" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Product URL from Etsy" aria-label="Product URL from Etsy" aria-describedby="basic-addon1" name="inputURL" required>
+        </div>
+        <p>
+          <button class="btn btn-primary my-2" type="submit">INSERT</button>
+        </p>
+      </form>
+    </div>
+
+   
+  </div>
+</section>
+
+{% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags == "success" %} class="alert alert-{{ message.tags }} text-center w-50 mx-auto" {% else %} class="alert alert-warning text-center w-50 mx-auto" {% endif %} role="alert">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+
+  <div class="row py-lg-4">
+      <div class="col-lg-8 col-md-4 mx-auto pb-5">
+        <h1 class="fw-light text-center">All Products</h1>
+      </div>
+    </div>
+  <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+          {% for product in products %}
+          <div class="col">
+              <div class="card shadow-sm mx-auto" style="max-width: 18rem;">
+                <a href="/product/{{product.id}}/"><img src= "{{ product.img_url }}" class="card-img-top" style="max-height: 250px;"></a>
+                  <div class="card-body">
+                      <p class="card-text">
+                        <a href="/product/{{product.id}}/" class="text-reset text-decoration-none">{{ product.name|truncatechars:70 }}</a>
+                      </p>
+        
+                      <div class="d-flex justify-content-between align-items-center">
+                          <div class="btn-group">
+                            <a href="{% url 'delete-product' id=product.id %}"> 
+                              <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                            </a>
+                          </div>
+                          <small class="text-muted">{{product.price}}</small>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block homepage %}
+
+
+
+<section class="py-5 text-center container">
+  {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags == "success" %} class="alert alert-{{ message.tags }} text-center w-50 mx-auto" {% else %} class="alert alert-warning text-center w-50 mx-auto" {% endif %} role="alert">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+
+
+  <div class="row py-lg-5 mt-5 pt-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Etsy Products</h1>
+      <p class="lead text-muted">Insert a URL of a product that exist on Etsy.</p>
+
+
+      <form action="/" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Product URL from Etsy" aria-label="Product URL from Etsy" aria-describedby="basic-addon1" name="inputURL" required>
+        </div>
+        <p>
+          <button class="btn btn-primary my-2" type="submit">INSERT</button>
+        </p>
+      </form>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
